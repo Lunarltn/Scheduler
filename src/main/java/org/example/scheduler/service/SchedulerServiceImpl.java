@@ -8,11 +8,14 @@ import org.example.scheduler.repository.SchedulerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class SchedulerServiceImpl implements SchedulerService {
     private final SchedulerRepository schedulerRepository;
-
 
     @Transactional
     @Override
@@ -26,5 +29,13 @@ public class SchedulerServiceImpl implements SchedulerService {
         schedulerRepository.save(schedulerEntity);
 
         return new SchedulerResponseDto(schedulerEntity);
+    }
+
+    @Override
+    public List<SchedulerResponseDto> findAllSchedules() {
+        List<SchedulerEntity> list = schedulerRepository.findAll();
+        List<SchedulerResponseDto> schedulerResponseDtoList = new ArrayList<>();
+        schedulerResponseDtoList=list.stream().map(SchedulerResponseDto::new).toList();
+        return schedulerResponseDtoList;
     }
 }
