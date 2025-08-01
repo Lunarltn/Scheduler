@@ -28,4 +28,5 @@ public class SchedulerController {
         return new ResponseEntity<>(schedulerService.findAllSchedules(),HttpStatus.OK);
     }
 
+
 }

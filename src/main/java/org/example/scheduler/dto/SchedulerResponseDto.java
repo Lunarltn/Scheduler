@@ -14,7 +14,6 @@ public class SchedulerResponseDto {
     private String title;
     private String contents;
     private String writer;
-    private String password;
     private Date creationDate;
     private Date modificationDate;
 
@@ -23,7 +22,6 @@ public class SchedulerResponseDto {
         this.title = schedulerEntity.getTitle();
         this.contents = schedulerEntity.getContents();
         this.writer = schedulerEntity.getWriter();
-        this.password = schedulerEntity.getPassword();
         this.creationDate = schedulerEntity.getCreationDate();
         this.modificationDate = schedulerEntity.getModificationDate();
     }
