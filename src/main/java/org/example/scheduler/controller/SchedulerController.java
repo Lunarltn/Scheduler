@@ -19,7 +19,7 @@ public class SchedulerController {
     @PostMapping
     public ResponseEntity<SchedulerResponseDto> PostSchedule(@RequestBody SchedulerRequestDto requestDto)
     {
-        return new ResponseEntity<>(schedulerService.postSchedule(requestDto), HttpStatus.OK);
+        return new ResponseEntity<>(schedulerService.postSchedule(requestDto), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -28,5 +28,10 @@ public class SchedulerController {
         return new ResponseEntity<>(schedulerService.findAllSchedules(),HttpStatus.OK);
     }
 
+    @GetMapping("/id/{id}")
+    public ResponseEntity<SchedulerResponseDto> findScheduleById(@PathVariable Long id)
+    {
+        return new ResponseEntity<>(schedulerService.findScheduleById(id),HttpStatus.OK);
+    }
 
 }

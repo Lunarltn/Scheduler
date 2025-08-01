@@ -6,13 +6,12 @@ import org.example.scheduler.dto.SchedulerResponseDto;
 import org.example.scheduler.dto.SchedulerResponseDtoDateComparator;
 import org.example.scheduler.entity.SchedulerEntity;
 import org.example.scheduler.repository.SchedulerRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,5 +39,14 @@ public class SchedulerServiceImpl implements SchedulerService {
         List<SchedulerResponseDto> schedulerResponseDtoList = new ArrayList<>(list.stream().map(SchedulerResponseDto::new).toList());
         schedulerResponseDtoList.sort(new SchedulerResponseDtoDateComparator().reversed());
         return schedulerResponseDtoList;
+    }
+
+    @Override
+    public SchedulerResponseDto findScheduleById(Long id) {
+        Optional<SchedulerEntity> byId = schedulerRepository.findById(id);
+        if(byId.isPresent())
+            return new SchedulerResponseDto(byId.get());
+        else
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Schedule not found");
     }
 }

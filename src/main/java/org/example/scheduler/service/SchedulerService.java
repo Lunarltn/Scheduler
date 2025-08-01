@@ -9,4 +9,6 @@ public interface SchedulerService {
     SchedulerResponseDto postSchedule(SchedulerRequestDto requestDto);
 
     List<SchedulerResponseDto> findAllSchedules();
+
+    SchedulerResponseDto findScheduleById(Long id);
 }
