@@ -1,5 +1,6 @@
 package org.example.scheduler.service;
 
+import org.example.scheduler.dto.PatchSchedulerRequestDto;
 import org.example.scheduler.dto.SchedulerRequestDto;
 import org.example.scheduler.dto.SchedulerResponseDto;
 
@@ -11,4 +12,6 @@ public interface SchedulerService {
     List<SchedulerResponseDto> findAllSchedules();
 
     SchedulerResponseDto findScheduleById(Long id);
+
+    SchedulerResponseDto updateTitleAndAuthorWithCredentials(Long id, String password, PatchSchedulerRequestDto requestDto);
 }

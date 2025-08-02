@@ -3,9 +3,7 @@ package org.example.scheduler.dto;
 import lombok.Getter;
 
 @Getter
-public class SchedulerRequestDto {
+public class PatchSchedulerRequestDto {
     private String title;
-    private String contents;
     private String author;
-    private String password;
 }

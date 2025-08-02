@@ -1,6 +1,7 @@
 package org.example.scheduler.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.scheduler.dto.PatchSchedulerRequestDto;
 import org.example.scheduler.dto.SchedulerRequestDto;
 import org.example.scheduler.dto.SchedulerResponseDto;
 import org.example.scheduler.dto.SchedulerResponseDtoDateComparator;
@@ -25,7 +26,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         SchedulerEntity schedulerEntity = new SchedulerEntity(
                 requestDto.getTitle(),
                 requestDto.getContents(),
-                requestDto.getWriter(),
+                requestDto.getAuthor(),
                 requestDto.getPassword()
         );
         schedulerRepository.save(schedulerEntity);
@@ -44,9 +45,28 @@ public class SchedulerServiceImpl implements SchedulerService {
     @Override
     public SchedulerResponseDto findScheduleById(Long id) {
         Optional<SchedulerEntity> byId = schedulerRepository.findById(id);
-        if(byId.isPresent())
+        if (byId.isPresent())
             return new SchedulerResponseDto(byId.get());
         else
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Schedule not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule not found");
+    }
+
+    @Override
+    public SchedulerResponseDto updateTitleAndAuthorWithCredentials(Long id, String password, PatchSchedulerRequestDto requestDto) {
+        Optional<SchedulerEntity> byId = schedulerRepository.findById(id);
+
+        if (byId.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule not found");
+
+        if (!byId.get().getPassword().equals(password))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "password does not match");
+
+        if (requestDto.getTitle().isEmpty() || requestDto.getAuthor().isEmpty())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "title or author is empty");
+
+        SchedulerEntity schedulerEntity = new SchedulerEntity(requestDto.getTitle(), byId.get().getContents(), requestDto.getAuthor(), byId.get().getPassword());
+        schedulerRepository.save(schedulerEntity);
+
+        return new SchedulerResponseDto(schedulerEntity);
     }
 }

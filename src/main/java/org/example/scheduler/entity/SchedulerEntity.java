@@ -1,11 +1,8 @@
 package org.example.scheduler.entity;
-import java.util.Date;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
 @Getter
@@ -16,14 +13,14 @@ public class SchedulerEntity extends BaseEntity {
     private Long id;
     private String title;
     private String contents;
-    private String writer;
+    private String author;
     private String password;
 
 
-    public SchedulerEntity(String title, String contents, String writer, String password) {
+    public SchedulerEntity(String title, String contents, String author, String password) {
         this.title = title;
         this.contents = contents;
-        this.writer = writer;
+        this.author = author;
         this.password = password;
     }
 }
