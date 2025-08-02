@@ -16,11 +16,15 @@ public class SchedulerEntity extends BaseEntity {
     private String author;
     private String password;
 
-
     public SchedulerEntity(String title, String contents, String author, String password) {
         this.title = title;
         this.contents = contents;
         this.author = author;
         this.password = password;
+    }
+
+    public void updateTitleAndAuthor(String title, String author) {
+        this.title = title;
+        this.author = author;
     }
 }

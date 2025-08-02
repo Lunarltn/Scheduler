@@ -51,21 +51,19 @@ public class SchedulerServiceImpl implements SchedulerService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule not found");
     }
 
+    @Transactional
     @Override
     public SchedulerResponseDto updateTitleAndAuthorWithCredentials(Long id, String password, PatchSchedulerRequestDto requestDto) {
-        Optional<SchedulerEntity> byId = schedulerRepository.findById(id);
-
-        if (byId.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule not found");
-
-        if (!byId.get().getPassword().equals(password))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "password does not match");
-
         if (requestDto.getTitle().isEmpty() || requestDto.getAuthor().isEmpty())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "title or author is empty");
 
-        SchedulerEntity schedulerEntity = new SchedulerEntity(requestDto.getTitle(), byId.get().getContents(), requestDto.getAuthor(), byId.get().getPassword());
-        schedulerRepository.save(schedulerEntity);
+        SchedulerEntity schedulerEntity = schedulerRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule not found"));
+
+        if (!schedulerEntity.getPassword().equals(password))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "password does not match");
+
+        schedulerEntity.updateTitleAndAuthor(requestDto.getTitle(), requestDto.getAuthor());
 
         return new SchedulerResponseDto(schedulerEntity);
     }
