@@ -1,0 +1,185 @@
+{
+	"info": {
+		"_postman_id": "47117534-53bb6d87-3ccb-47a0-a9c5-b29d8a57517d",
+		"name": "Scheduler",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "일정 저장",
+			"id": "47117534-8d7eb4a4-ccad-4fe0-ba04-ef02834b974f",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\" : \"일정 제목\",\r\n    \"contents\" : \"일정 내용\",\r\n    \"author\" : \"김기수\",\r\n    \"password\" : \"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/schedulers",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"schedulers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "전체 일정 조회",
+			"id": "47117534-f06b9390-851e-4fac-a916-4bb306b8d664",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/schedulers",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"schedulers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "아이디로 일정 조회",
+			"id": "47117534-022d432a-1e2d-4fb6-ae51-f13c82c4a78b",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/schedulers/id/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"schedulers",
+						"id",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "자격 증명 후 제목, 작성자 수정",
+			"id": "47117534-2e0d86a1-5671-4016-8631-bfb511e41f50",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"title\": \"제목 수정\",\r\n        \"author\" : \"이름 수정\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/schedulers/id/1/password/1234",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"schedulers",
+						"id",
+						"1",
+						"password",
+						"1234"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "자격 증명 후 일정 삭제",
+			"id": "47117534-a8563988-c6b6-4e67-bde0-3ea06bcfeef2",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\" : \"오늘 일정 제목\",\r\n    \"contents\" : \"오늘 일정 내용\",\r\n    \"writer\" : \"김기수\",\r\n    \"password\" : \"비밀번호\"\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/schedulers/id/1/password/1234",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"schedulers",
+						"id",
+						"1",
+						"password",
+						"1234"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "댓글 저장",
+			"id": "47117534-354c0c15-cadc-4c0b-87ba-b79bced26170",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"contents\" : \"댓글 내용\",\r\n    \"author\" : \"김기수\",\r\n    \"password\" : \"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/schedulers/id/1/comments",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"schedulers",
+						"id",
+						"1",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
