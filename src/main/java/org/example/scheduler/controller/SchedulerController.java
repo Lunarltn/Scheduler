@@ -38,8 +38,14 @@ public class SchedulerController {
             @PathVariable String password,
             @RequestBody PatchSchedulerRequestDto requestDto
     ) {
-
         return new ResponseEntity<>(schedulerService.updateTitleAndAuthorWithCredentials(id, password, requestDto), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/id/{id}/password/{password}")
+    public ResponseEntity<Void> deleteScheduleWithCredentials(@PathVariable Long id,
+                                                              @PathVariable String password) {
+        schedulerService.deleteScheduleWithCredentials(id, password);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

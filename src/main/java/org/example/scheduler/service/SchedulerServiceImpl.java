@@ -34,6 +34,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         return new SchedulerResponseDto(schedulerEntity);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<SchedulerResponseDto> findAllSchedules() {
         List<SchedulerEntity> list = schedulerRepository.findAll();
@@ -42,13 +43,13 @@ public class SchedulerServiceImpl implements SchedulerService {
         return schedulerResponseDtoList;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public SchedulerResponseDto findScheduleById(Long id) {
-        Optional<SchedulerEntity> byId = schedulerRepository.findById(id);
-        if (byId.isPresent())
-            return new SchedulerResponseDto(byId.get());
-        else
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule not found");
+        SchedulerEntity byId = schedulerRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule not found"));
+
+        return new SchedulerResponseDto(byId);
     }
 
     @Transactional
@@ -66,5 +67,17 @@ public class SchedulerServiceImpl implements SchedulerService {
         schedulerEntity.updateTitleAndAuthor(requestDto.getTitle(), requestDto.getAuthor());
 
         return new SchedulerResponseDto(schedulerEntity);
+    }
+
+    @Transactional
+    @Override
+    public void deleteScheduleWithCredentials(Long id, String password) {
+        SchedulerEntity schedulerEntity = schedulerRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule not found"));
+
+        if (!schedulerEntity.getPassword().equals(password))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "password does not match");
+
+        schedulerRepository.deleteById(id);
     }
 }

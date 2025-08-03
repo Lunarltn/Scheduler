@@ -14,4 +14,6 @@ public interface SchedulerService {
     SchedulerResponseDto findScheduleById(Long id);
 
     SchedulerResponseDto updateTitleAndAuthorWithCredentials(Long id, String password, PatchSchedulerRequestDto requestDto);
+
+    void deleteScheduleWithCredentials(Long id, String password);
 }
