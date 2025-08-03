@@ -1,6 +1,7 @@
 package org.example.scheduler.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.comment.entity.CommentEntity;
 import org.example.scheduler.dto.PatchSchedulerRequestDto;
 import org.example.scheduler.dto.SchedulerRequestDto;
 import org.example.scheduler.dto.SchedulerResponseDto;
@@ -46,23 +47,18 @@ public class SchedulerServiceImpl implements SchedulerService {
     @Transactional(readOnly = true)
     @Override
     public SchedulerResponseDto findScheduleById(Long id) {
-        SchedulerEntity byId = schedulerRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule not found"));
-
-        return new SchedulerResponseDto(byId);
+        return new SchedulerResponseDto(getSchedulerEntityByIdOrThrow(id));
     }
 
     @Transactional
     @Override
     public SchedulerResponseDto updateTitleAndAuthorWithCredentials(Long id, String password, PatchSchedulerRequestDto requestDto) {
         if (requestDto.getTitle().isEmpty() || requestDto.getAuthor().isEmpty())
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "title or author is empty");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "제목 또는 작성자를 적어주세요.");
 
-        SchedulerEntity schedulerEntity = schedulerRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule not found"));
+        SchedulerEntity schedulerEntity = getSchedulerEntityByIdOrThrow(id);
 
-        if (!schedulerEntity.getPassword().equals(password))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "password does not match");
+        checkPasswordOrThrow(schedulerEntity, password);
 
         schedulerEntity.updateTitleAndAuthor(requestDto.getTitle(), requestDto.getAuthor());
 
@@ -72,12 +68,28 @@ public class SchedulerServiceImpl implements SchedulerService {
     @Transactional
     @Override
     public void deleteScheduleWithCredentials(Long id, String password) {
-        SchedulerEntity schedulerEntity = schedulerRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Schedule not found"));
+        SchedulerEntity schedulerEntity = getSchedulerEntityByIdOrThrow(id);
 
-        if (!schedulerEntity.getPassword().equals(password))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "password does not match");
+        checkPasswordOrThrow(schedulerEntity, password);
 
         schedulerRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    void checkPasswordOrThrow(SchedulerEntity schedulerEntity, String password) {
+        if (!schedulerEntity.getPassword().equals(password))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "비밀번호가 맞지 않습니다.");
+    }
+
+    @Override
+    public SchedulerEntity getSchedulerEntityByIdOrThrow(Long id) {
+        return schedulerRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "일정을 찾을 수 없습니다."));
+    }
+
+    @Transactional
+    @Override
+    public void addComment(Long id, CommentEntity commentEntity) {
+        getSchedulerEntityByIdOrThrow(id).addComment(commentEntity);
     }
 }
