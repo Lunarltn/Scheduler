@@ -1,9 +1,10 @@
 package org.example.scheduler.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.scheduler.dto.PatchSchedulerRequestDto;
+import org.example.scheduler.dto.SchedulerUpdateRequestDto;
 import org.example.scheduler.dto.SchedulerRequestDto;
 import org.example.scheduler.dto.SchedulerResponseDto;
+import org.example.scheduler.dto.SchedulerWithCommentResponseDto;
 import org.example.scheduler.service.SchedulerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class SchedulerController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<SchedulerResponseDto> findScheduleById(@PathVariable Long id) {
+    public ResponseEntity<SchedulerWithCommentResponseDto> findScheduleById(@PathVariable Long id) {
         return new ResponseEntity<>(schedulerService.findScheduleById(id), HttpStatus.OK);
     }
 
@@ -36,7 +37,7 @@ public class SchedulerController {
     public ResponseEntity<SchedulerResponseDto> updateTitleAndAuthorWithCredentials(
             @PathVariable Long id,
             @PathVariable String password,
-            @RequestBody PatchSchedulerRequestDto requestDto
+            @RequestBody SchedulerUpdateRequestDto requestDto
     ) {
         return new ResponseEntity<>(schedulerService.updateTitleAndAuthorWithCredentials(id, password, requestDto), HttpStatus.OK);
     }

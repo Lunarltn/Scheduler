@@ -2,10 +2,7 @@ package org.example.scheduler.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.comment.entity.CommentEntity;
-import org.example.scheduler.dto.PatchSchedulerRequestDto;
-import org.example.scheduler.dto.SchedulerRequestDto;
-import org.example.scheduler.dto.SchedulerResponseDto;
-import org.example.scheduler.dto.SchedulerResponseDtoDateComparator;
+import org.example.scheduler.dto.*;
 import org.example.scheduler.entity.SchedulerEntity;
 import org.example.scheduler.repository.SchedulerRepository;
 import org.springframework.http.HttpStatus;
@@ -14,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,13 +42,13 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     @Transactional(readOnly = true)
     @Override
-    public SchedulerResponseDto findScheduleById(Long id) {
-        return new SchedulerResponseDto(getSchedulerEntityByIdOrThrow(id));
+    public SchedulerWithCommentResponseDto findScheduleById(Long id) {
+        return new SchedulerWithCommentResponseDto(getSchedulerEntityByIdOrThrow(id));
     }
 
     @Transactional
     @Override
-    public SchedulerResponseDto updateTitleAndAuthorWithCredentials(Long id, String password, PatchSchedulerRequestDto requestDto) {
+    public SchedulerResponseDto updateTitleAndAuthorWithCredentials(Long id, String password, SchedulerUpdateRequestDto requestDto) {
         if (requestDto.getTitle().isEmpty() || requestDto.getAuthor().isEmpty())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "제목 또는 작성자를 적어주세요.");
 

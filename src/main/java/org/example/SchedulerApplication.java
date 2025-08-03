@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
-@SpringBootApplication(scanBasePackages = {"org.example"})
+@SpringBootApplication
 public class SchedulerApplication {
 
     public static void main(String[] args) {

@@ -13,6 +13,7 @@ public class CommentResponseDto {
     private String author;
     private Date creationDate;
     private Date modificationDate;
+    private Long scheduleId;
 
     public CommentResponseDto(CommentEntity commentEntity) {
         this.id = commentEntity.getId();
@@ -20,5 +21,6 @@ public class CommentResponseDto {
         this.author = commentEntity.getAuthor();
         this.creationDate = commentEntity.getCreationDate();
         this.modificationDate = commentEntity.getModificationDate();
+        this.scheduleId = commentEntity.getScheduler().getId();
     }
 }
