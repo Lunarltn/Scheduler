@@ -54,7 +54,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 
         SchedulerEntity schedulerEntity = getSchedulerEntityByIdOrThrow(id);
 
-        checkPasswordOrThrow(schedulerEntity, password);
+        schedulerEntity.checkPasswordOrThrow(password);
 
         schedulerEntity.updateTitleAndAuthor(requestDto.getTitle(), requestDto.getAuthor());
 
@@ -66,15 +66,9 @@ public class SchedulerServiceImpl implements SchedulerService {
     public void deleteScheduleWithCredentials(Long id, String password) {
         SchedulerEntity schedulerEntity = getSchedulerEntityByIdOrThrow(id);
 
-        checkPasswordOrThrow(schedulerEntity, password);
+        schedulerEntity.checkPasswordOrThrow(password);
 
         schedulerRepository.deleteById(id);
-    }
-
-    @Transactional(readOnly = true)
-    void checkPasswordOrThrow(SchedulerEntity schedulerEntity, String password) {
-        if (!schedulerEntity.getPassword().equals(password))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "비밀번호가 맞지 않습니다.");
     }
 
     @Override
