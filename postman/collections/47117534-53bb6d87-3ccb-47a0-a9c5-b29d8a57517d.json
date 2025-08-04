@@ -93,7 +93,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"title\": \"제목 수정\",\r\n        \"author\" : \"이름 수정\"\r\n}",
+					"raw": "{\r\n        \"title\": \"제목 수정\",\r\n        \"author\" : \"김길숭\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -101,7 +101,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/schedulers/id/1/password/1234",
+					"raw": "localhost:8080/schedulers/id/1/password/123",
 					"host": [
 						"localhost"
 					],
@@ -111,7 +111,7 @@
 						"id",
 						"1",
 						"password",
-						"1234"
+						"123"
 					]
 				}
 			},
@@ -128,10 +128,10 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"title\" : \"오늘 일정 제목\",\r\n    \"contents\" : \"오늘 일정 내용\",\r\n    \"writer\" : \"김기수\",\r\n    \"password\" : \"비밀번호\"\r\n}"
+					"raw": ""
 				},
 				"url": {
-					"raw": "localhost:8080/schedulers/id/1/password/1234",
+					"raw": "localhost:8080/schedulers/id/7/password/1234",
 					"host": [
 						"localhost"
 					],
@@ -139,7 +139,7 @@
 					"path": [
 						"schedulers",
 						"id",
-						"1",
+						"7",
 						"password",
 						"1234"
 					]
